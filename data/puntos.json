@@ -548,6 +548,32 @@
       "actualizado_en": "2026-06-27T20:03:52.069Z"
     },
     {
+      "id": "bd620660-efca-41d3-b815-db7307c96e34",
+      "tipo": "acopio",
+      "nombre": "Fundación Tejiendo Redes - UCLA",
+      "lat": 10.0600331,
+      "lng": -69.3314876,
+      "ciudad": "Barquisimeto",
+      "pais": "Venezuela",
+      "estado": "abierto",
+      "categorias": [
+        "Ropa",
+        "Agua",
+        "Alimentos no perecederos",
+        "Medicamentos",
+        "Higiene personal",
+        "Herramientas",
+        "Artículos de bebé",
+        "Pañales",
+        "Frazadas"
+      ],
+      "telefono": "+58 4245718876",
+      "descripcion": "*Insumos Médicos:\nMedicamentos \nMascarillas \nGasas y vendas \nMaterial de cura quirúrgica \n\n*Escensiales para bebés: \nPañales, leche de fórmula, toallas húmedas, jabón neutro.\n\n*Artículos para Refugio \nColchones, colchonetas, sábanas y ropa en buen estado \n\n*Alimentos no perecederos:\nArros, pasta, harina, leche en polvo, enlatados (Atún o sardinas).",
+      "fuente": "Armando Ron",
+      "fuente_url": "https://acopiove.org",
+      "actualizado_en": "2026-06-28T19:58:18.128Z"
+    },
+    {
       "id": "5d9ffeaf-c75c-4321-91bd-7c8a9271aca3",
       "tipo": "acopio",
       "nombre": "Cáritas de Venezuela",
@@ -743,6 +769,31 @@
       "fuente": "@funjuntossepuede",
       "fuente_url": "https://acopiove.org",
       "actualizado_en": "2026-06-27T19:57:01.232Z"
+    },
+    {
+      "id": "320842e6-de8f-421d-bc73-40bf8bfb09fc",
+      "tipo": "acopio",
+      "nombre": "849 Restaurant CC Patio Trigal",
+      "lat": 10.2276977,
+      "lng": -67.996709,
+      "ciudad": "Valencia",
+      "pais": "Venezuela",
+      "estado": "abierto",
+      "categorias": [
+        "Agua",
+        "Alimentos no perecederos",
+        "Frazadas",
+        "Ropa",
+        "Medicamentos",
+        "Higiene personal",
+        "Pañales",
+        "Artículos de bebé"
+      ],
+      "telefono": "04248496000",
+      "descripcion": "Agua potable sábanas",
+      "fuente": "Hector",
+      "fuente_url": "https://acopiove.org",
+      "actualizado_en": "2026-06-28T20:50:03.004Z"
     },
     {
       "id": "45291146-e8b8-4e4c-8db2-f075632948be",
@@ -4013,48 +4064,6 @@
       "fuente": "acopiovzla.com",
       "fuente_url": "https://acopiove.org",
       "actualizado_en": "2026-06-27T08:45:25.075Z"
-    },
-    {
-      "id": "17bb6fd3-e37e-4637-b626-2adf164283be",
-      "tipo": "acopio",
-      "nombre": "Operación Todos con VZLA — Barinitas",
-      "lat": 8.75814,
-      "lng": -70.40926,
-      "ciudad": "Barinitas",
-      "pais": "Venezuela",
-      "estado": "abierto",
-      "categorias": [
-        "agua",
-        "alimentos",
-        "medicamentos",
-        "ropa"
-      ],
-      "telefono": "Sin telefono",
-      "descripcion": null,
-      "fuente": "acopiovzla.com",
-      "fuente_url": "https://acopiove.org",
-      "actualizado_en": "2026-06-27T08:45:25.081Z"
-    },
-    {
-      "id": "4c609318-5e60-4882-b0f8-9fdb7394b876",
-      "tipo": "acopio",
-      "nombre": "Operación Todos con VZLA — Barrancas",
-      "lat": 8.7648,
-      "lng": -70.11593,
-      "ciudad": "Barrancas",
-      "pais": "Venezuela",
-      "estado": "abierto",
-      "categorias": [
-        "agua",
-        "alimentos",
-        "medicamentos",
-        "ropa"
-      ],
-      "telefono": "Sin telefono",
-      "descripcion": null,
-      "fuente": "acopiovzla.com",
-      "fuente_url": "https://acopiove.org",
-      "actualizado_en": "2026-06-27T08:45:25.090Z"
     }
   ],
   "meta": {
@@ -4062,7 +4071,7 @@
     "license": "CC-BY-4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/",
     "attribution": "Datos: AcopioVE (acopiove.org), CC-BY-4.0",
-    "total": 2559,
+    "total": 2584,
     "limit": 200,
     "offset": 0,
     "tipos": [

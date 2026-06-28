@@ -1,15 +1,15 @@
 {
   "data": {
     "centros": {
-      "total": 577,
-      "acopios": 544,
+      "total": 579,
+      "acopios": 546,
       "refugios": 33,
       "paises": 20
     },
     "telefonos": {
       "total": 78
     },
-    "updated_at": "2026-06-28 04:58:44.56212"
+    "updated_at": "2026-06-28 20:50:03.004"
   },
   "meta": {
     "license": "CC-BY-4.0",
