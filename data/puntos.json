@@ -421,6 +421,22 @@
       "actualizado_en": "2026-06-26T06:19:35.787Z"
     },
     {
+      "id": "7289494d-e5b9-4eb7-9150-a9e9258903fd",
+      "tipo": "acopio",
+      "nombre": "Olarte Transport",
+      "lat": 34.0301041,
+      "lng": -118.247455,
+      "ciudad": "Los Angeles",
+      "pais": "Estados Unidos",
+      "estado": "abierto",
+      "categorias": [],
+      "telefono": "(213) 624-2691 o patricia@olartetransport.com",
+      "descripcion": null,
+      "fuente": "julietaosorior",
+      "fuente_url": "https://acopiove.org",
+      "actualizado_en": "2026-06-28T04:58:44.562Z"
+    },
+    {
       "id": "a89966d6-7bd8-469a-b94c-39d5e8b817c9",
       "tipo": "acopio",
       "nombre": "C.C PLAZA MAYOR",
@@ -4039,27 +4055,6 @@
       "fuente": "acopiovzla.com",
       "fuente_url": "https://acopiove.org",
       "actualizado_en": "2026-06-27T08:45:25.090Z"
-    },
-    {
-      "id": "171255ae-085b-483b-9249-f3b81b4aa9dd",
-      "tipo": "acopio",
-      "nombre": "Operación Todos con VZLA — Sabaneta",
-      "lat": 8.75293,
-      "lng": -69.93454,
-      "ciudad": "Sabaneta",
-      "pais": "Venezuela",
-      "estado": "abierto",
-      "categorias": [
-        "agua",
-        "alimentos",
-        "medicamentos",
-        "ropa"
-      ],
-      "telefono": "Sin telefono",
-      "descripcion": null,
-      "fuente": "acopiovzla.com",
-      "fuente_url": "https://acopiove.org",
-      "actualizado_en": "2026-06-27T08:45:25.094Z"
     }
   ],
   "meta": {
@@ -4067,7 +4062,7 @@
     "license": "CC-BY-4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/",
     "attribution": "Datos: AcopioVE (acopiove.org), CC-BY-4.0",
-    "total": 2558,
+    "total": 2559,
     "limit": 200,
     "offset": 0,
     "tipos": [

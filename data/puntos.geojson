@@ -621,6 +621,32 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -118.247455,
+          34.0301041
+        ]
+      },
+      "properties": {
+        "id": "7289494d-e5b9-4eb7-9150-a9e9258903fd",
+        "tipo": "acopio",
+        "nombre": "Olarte Transport",
+        "lat": 34.0301041,
+        "lng": -118.247455,
+        "ciudad": "Los Angeles",
+        "pais": "Estados Unidos",
+        "estado": "abierto",
+        "categorias": [],
+        "telefono": "(213) 624-2691 o patricia@olartetransport.com",
+        "descripcion": null,
+        "fuente": "julietaosorior",
+        "fuente_url": "https://acopiove.org",
+        "actualizado_en": "2026-06-28T04:58:44.562Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -64.6857834,
           10.1825871
         ]
@@ -6034,37 +6060,6 @@
         "fuente": "acopiovzla.com",
         "fuente_url": "https://acopiove.org",
         "actualizado_en": "2026-06-27T08:45:25.090Z"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -69.93454,
-          8.75293
-        ]
-      },
-      "properties": {
-        "id": "171255ae-085b-483b-9249-f3b81b4aa9dd",
-        "tipo": "acopio",
-        "nombre": "Operación Todos con VZLA — Sabaneta",
-        "lat": 8.75293,
-        "lng": -69.93454,
-        "ciudad": "Sabaneta",
-        "pais": "Venezuela",
-        "estado": "abierto",
-        "categorias": [
-          "agua",
-          "alimentos",
-          "medicamentos",
-          "ropa"
-        ],
-        "telefono": "Sin telefono",
-        "descripcion": null,
-        "fuente": "acopiovzla.com",
-        "fuente_url": "https://acopiove.org",
-        "actualizado_en": "2026-06-27T08:45:25.094Z"
       }
     }
   ]
