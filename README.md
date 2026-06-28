@@ -6,6 +6,37 @@ Este repositorio es independiente del backend de la aplicación principal para g
 
 ---
 
+## Arquitectura de Agregación (Hub de APIs)
+AcopioVE no funciona únicamente como una base de datos aislada, sino como un **Hub de Agregación de Datos** (Aggregating Hub) diseñado para la interoperabilidad en situaciones de desastre. 
+
+Para evitar que los desarrolladores y las organizaciones de rescate tengan que integrar múltiples interfaces de programación por separado, el backend de la API de AcopioVE realiza consultas en paralelo, normaliza los esquemas de datos y expone los resultados de manera unificada. Las APIs que se integran en tiempo real en nuestro hub son:
+* **SOS Venezuela:** Registros de personas desaparecidas e indicadores globales.
+* **Localizados Venezuela:** Reportes de personas localizadas en albergues y centros de salud.
+* **CIVIS Venezuela:** Directorio verificado de hospitales, clínicas y puntos de atención médica.
+* **Mapa de Daños (terremotovenezuela.com):** Edificios afectados e infraestructura con daño estructural.
+* **Reporte VE:** Estado y cortes en la distribución de servicios públicos básicos.
+* **Centros de Insumos VE:** Inventario logístico de suministros y requerimientos de ayuda.
+* **Hub Venezuela Ayuda (hazlohoy.org):** Consolidado de ofertas y solicitudes de asistencia ciudadana.
+* **ResponseGrid:** Necesidades validadas por brigadas profesionales de primera respuesta.
+
+---
+
+## Mecanismos de Deduplicación y Consistencia de Datos
+Uno de los mayores desafíos al consolidar múltiples fuentes de emergencia es la redundancia de registros. AcopioVE implementa tres técnicas del lado del servidor para evitar la duplicación de datos y garantizar la consistencia en el mapa de búsquedas:
+
+### 1. Exclusión de Capas Redundantes en Origen
+Varios de los hubs que consumimos (como Venezuela Ayuda o ResponseGrid) a su vez espejan datos de otras plataformas. Para evitar que la misma información aparezca duplicada, aplicamos filtros de exclusión estrictos en la ingesta:
+* Excluimos los reportes de tipo `damaged_building` del hub general de Venezuela Ayuda, dado que esa información la consumimos de forma directa y prioritaria desde la API nativa de `terremotovenezuela.com`.
+* De la API de ResponseGrid solo importamos y normalizamos las necesidades de insumos (`needs`), omitiendo su capa de daños y recursos de acopio que ya se gestionan localmente en AcopioVE.
+
+### 2. Algoritmo de Detección de Duplicados en Contribuciones (/submissions)
+Cuando un usuario o plataforma externa sugiere un nuevo punto a través de `POST /submissions`, el backend analiza la base de datos en busca de posibles conflictos utilizando dos criterios:
+* **Cercanía Geográfica:** Se calcula la distancia utilizando la fórmula de Haversine. Si existe un punto activo en un radio menor a 100 metros, se marca como posible duplicado.
+* **Similitud Léxica:** Se normalizan y comparan los nombres (removiendo acentos, mayúsculas y espacios múltiples).
+* Si se cumple alguno de los criterios, la API responde con la bandera `possible_duplicate: true` e incluye la información del registro existente en el campo `duplicate_of`, permitiendo al integrador decidir si descarta la sugerencia.
+
+---
+
 ## Documentación en la Web
 Para acceder a la documentación interactiva en vivo, puedes visitar los siguientes recursos oficiales:
 * **Página de Documentación de la API:** [https://acopiove.org/docs/api](https://acopiove.org/docs/api)
