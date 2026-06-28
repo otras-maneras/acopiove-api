@@ -103,6 +103,7 @@ Hemos preparado guías y ejemplos específicos para expandir el uso de la API:
 3. **Webhook de WhatsApp (NodeJS):** [examples/whatsapp_webhook.js](examples/whatsapp_webhook.js) - Manejador completo para un bot de WhatsApp conectado con Kapso.
 4. **Cliente en NodeJS (Fetch API):** [examples/nodejs_example.js](examples/nodejs_example.js) - Consulta geolocalizada e impresión formateada de puntos de ayuda en consola.
 5. **Comandos cURL (Bash):** [examples/curl_examples.sh](examples/curl_examples.sh) - Scripts y peticiones rápidas documentadas de consola.
+6. **Recopilador y Resumidor de Prensa con IA (NodeJS):** [news-summarizer/](news-summarizer/) - Módulo independiente que descarga feeds RSS en paralelo, realiza un parseo XML liviano mediante expresiones regulares y genera síntesis informativas consolidadas usando Gemini 2.5 Pro.
 
 ---
 
