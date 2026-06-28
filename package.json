@@ -1,0 +1,23 @@
+{
+  "name": "acopiove-api",
+  "version": "1.0.0",
+  "description": "Especificacion de la API y snapshots de datos abiertos del ecosistema AcopioVE",
+  "main": "examples/whatsapp_webhook.js",
+  "scripts": {
+    "snapshots": "./scripts/generate-snapshots.sh",
+    "example:node": "node examples/nodejs_example.js",
+    "example:curl": "./examples/curl_examples.sh"
+  },
+  "keywords": [
+    "acopiove",
+    "api",
+    "open-data",
+    "geojson",
+    "leaflet",
+    "whatsapp-chatbot",
+    "kapso"
+  ],
+  "author": "AcopioVE",
+  "license": "MIT",
+  "dependencies": {}
+}

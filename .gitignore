@@ -1,0 +1,34 @@
+# Dependencias de paquetes
+node_modules/
+jspm_packages/
+web_modules/
+
+# Archivos de configuracion local y secretos
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs y archivos de depuracion
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Archivos temporales y de sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Directorios de compilacion locales de usuarios
+dist/
+build/
+out/
+.next/
