@@ -81,6 +81,49 @@ Estas fuentes externas se consultan directamente desde el servidor, se normaliza
   ```
 * **Formato:** JSON
 
+### Ayuda Venezuela (MCP)
+* **Proposito:** Registro de pacientes y estado de salud consultado mediante Model Context Protocol (MCP).
+* **URL de API:** `https://ayudavenezuela.online/mcp`
+* **Ejemplo de peticion directa (cURL):**
+  ```bash
+  # Llamar a la herramienta de busqueda por RPC
+  curl -s -X POST -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <TOKEN>" \
+    -d '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"buscar_paciente","arguments":{"q":"nombre_familiar"}},"id":1}' \
+    "https://ayudavenezuela.online/mcp"
+  ```
+* **Formato:** JSON (JSON-RPC 2.0)
+
+### REDH AVAPRE
+* **Proposito:** Red de Ayuda Hospitalaria para registrar personas desaparecidas e ingresadas en centros de salud.
+* **URL de API:** `https://api-redh.avapre.com/api/v1/public/missing-persons`
+* **Ejemplo de peticion directa (cURL):**
+  ```bash
+  # Obtener el listado unificado de personas de la REDH
+  curl -s "https://api-redh.avapre.com/api/v1/public/missing-persons?limit=100"
+  ```
+* **Formato:** JSON
+
+### De Mano en Mano
+* **Proposito:** Requerimientos de insumos y cobertura médica por hospital de campaña/emergencia.
+* **URL de API:** `https://script.google.com/macros/s/AKfycbzX5pI5pnPazsDU8jPrrMbFpAxra149rNbjDWyYTwC_jhWTZORG_V3onD5LVd-fe8eY3g/exec`
+* **Ejemplo de peticion directa (cURL):**
+  ```bash
+  # Obtener el tablero de necesidades
+  curl -L -s "https://script.google.com/macros/s/AKfycbzX5pI5pnPazsDU8jPrrMbFpAxra149rNbjDWyYTwC_jhWTZORG_V3onD5LVd-fe8eY3g/exec"
+  ```
+* **Formato:** JSON (Google Apps Script)
+
+### TerraVE (Datos Satelitales SAR)
+* **Proposito:** Capa de afectación estructural y zonas de derrumbe obtenidas de radar satelital (SAR) Sentinel-1 GRD.
+* **URL de API:** `https://terra-ve.vercel.app/api/satelital`
+* **Ejemplo de peticion directa (cURL):**
+  ```bash
+  # Obtener poligonos de afectacion dentro de un Bounding Box
+  curl -s "https://terra-ve.vercel.app/api/satelital?lat_min=10.4&lat_max=10.6&lng_min=-67.1&lng_max=-66.8&limit=100"
+  ```
+* **Formato:** JSON
+
 ---
 
 ## 2. Bases de Datos de Referencia Estatica
