@@ -12,7 +12,7 @@ interface RssSource {
 const RSS_FEEDS: Record<string, RssSource> = {
   elpais: {
     id: "elpais",
-    name: "El País",
+    name: "El País (América)",
     url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada",
   },
   rt: {
@@ -28,7 +28,7 @@ const RSS_FEEDS: Record<string, RssSource> = {
   dw: {
     id: "dw",
     name: "DW (Deutsche Welle)",
-    url: "http://rss.dw.com/rdf/rss-sp-top",
+    url: "https://rss.dw.com/xml/rss-es-all",
   },
   lanacion: {
     id: "lanacion",
@@ -37,10 +37,56 @@ const RSS_FEEDS: Record<string, RssSource> = {
   },
   nytimes: {
     id: "nytimes",
-    name: "nytimes",
+    name: "New York Times (World)",
     url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
   },
+  caracaschronicles: {
+    id: "caracaschronicles",
+    name: "Caracas Chronicles",
+    url: "https://caracaschronicles.com/feed",
+  },
+  eldiario: {
+    id: "eldiario",
+    name: "El Diario",
+    url: "https://eldiario.com/feed/",
+  },
+  efectococuyo: {
+    id: "efectococuyo",
+    name: "Efecto Cocuyo",
+    url: "https://efectococuyo.com/feed/",
+  },
+  elnacional: {
+    id: "elnacional",
+    name: "El Nacional",
+    url: "https://www.elnacional.com/feed/",
+  },
+  bbcmundo: {
+    id: "bbcmundo",
+    name: "BBC Mundo",
+    url: "https://feeds.bbci.co.uk/mundo/rss.xml",
+  },
+  reliefweb: {
+    id: "reliefweb",
+    name: "ReliefWeb (ONU)",
+    url: "https://reliefweb.int/updates/rss.xml",
+  },
+  unocha: {
+    id: "unocha",
+    name: "UN OCHA (ONU)",
+    url: "https://www.unocha.org/rss.xml",
+  },
 };
+
+const EMERGENCY_KEYWORDS = [
+  "sismo", "terremoto", "temblor", "réplica", "tsunami", "catástrofe",
+  "tragedia", "derrumbe", "colapso", "refugio", "acopio", "desaparecidos",
+  "víctimas", "fallecidos", "heridos", "ayuda humanitaria", "damnificados"
+];
+
+const GEOGRAPHIC_KEYWORDS = [
+  "venezuela", "caracas", "yaracuy", "la guaira", "portuguesa", "valencia",
+  "maracay", "san felipe", "yumare", "moron", "carabobo", "barquisimeto", "lara"
+];
 
 export class NewsService {
   public static async generateSummary(
@@ -91,27 +137,34 @@ export class NewsService {
       `[CACHE_SUMMARY] No hay resumen en cache. Consultando Gemini...`,
     );
 
-    const systemPrompt = `
-Eres un asistente editorial experto en síntesis informativa, análisis geopolítico y redacción periodística, especializado en el acontecer de Venezuela.
-Tu objetivo es analizar el listado de noticias proporcionado y generar un **Resumen Informativo de Venezuela** consolidado, objetivo, claro y profesional.
+    const currentServerTime = new Date().toISOString();
 
-Reglas estrictas del resumen:
-1. **Filtro Temático Absoluto:** Concéntrate **única y exclusivamente** en noticias que ocurran en Venezuela o que tengan una relación directa con el país (ej: diplomacia, diáspora, ayuda internacional, etc.). Ignora por completo cualquier noticia internacional que no mencione o afecte directamente a Venezuela.
-2. **Estructura y Organización:** Agrupa las noticias venezolanas en subtemas coherentes utilizando títulos limpios en Markdown (ej: # 🚨 Catástrofes y Emergencias, # 🏛️ Política y Gobierno, # 📉 Economía, etc.).
-3. **Metadatos Obligatorios con Hipervínculos (Fuente, Enlace y Fecha):** Para cada hecho, noticia o viñeta resumida, es **estrictamente mandatorio** incluir la fuente original configurada como un enlace clicable de Markdown utilizando la dirección provista en la etiqueta [URL_ORIGINAL: ...], seguida de la fecha entre paréntesis al final de la línea.
-   - *Ejemplo de formato:* "Este es el hecho noticioso resumido. (_[[El País](https://ejemplo.com/noticia), 28/06/2026]_)"
-   - Si la fecha no está disponible en el texto, coloca solo el hipervínculo de la fuente: "(_[[RT](https://ejemplo.com/noticia)]_)"
-   - Nunca dejes la URL plana expuesta; siempre camúflala dentro del nombre del medio de comunicación.
-4. **Consolidación de Fuentes:** Evita duplicar noticias similares de distintas fuentes. Si varios medios reportan el mismo evento (ej: el doble sismo), unifica todos los datos en una sola crónica o viñeta fluida y cita todos los hipervínculos dentro del mismo paréntesis de metadatos (ej: "(_[[RT](url1) / [NY Times](url2), 28/06/2026]_ )").
-5. **Tono y Estilo:** Mantén un tono neutro, analítico, riguroso y puramente periodístico. Estructura el boletín elegantemente utilizando Markdown (títulos, negritas y listas de viñetas).
+    const systemPrompt = `
+Eres un asistente editorial experto en síntesis informativa y redacción periodística para situaciones de emergencia sísmica y desastres naturales.
+Tu objetivo es analizar el listado de noticias de prensa provistas y generar un **Resumen Informativo de la Emergencia en Venezuela** estructurado, veraz, profesional y en formato de notificaciones directas.
+
+Reglas del resumen:
+1. **Filtro Temático:** Concéntrate exclusivamente en el impacto de los sismos, las réplicas, los daños de infraestructura, la suspensión de servicios y la red de ayuda humanitaria o centros de acopio en Venezuela. Descarta cualquier noticia ajena al país o a la crisis.
+2. **Estructura:** Agrupa las noticias en secciones ordenadas utilizando títulos de nivel 2 (ej: ## Reporte Sísmico y Emergencias, ## Estado de Colegios y Servicios, ## Centros de Acopio y Logística de Ayuda).
+3. **Hipervínculos Obligatorios (Fuentes):** Cada hecho resumido debe finalizar obligatoriamente enlazando a la URL original provista en la etiqueta [URL_ORIGINAL: ...] camuflada en el nombre del medio.
+   * *Ejemplo de formato:* "Este es el hecho resumido. (_[[El País](https://ejemplo.com/noticia)]_)"
+4. **Deduplicación:** Si múltiples medios reportan la misma réplica o el mismo centro de acopio, consolida la información en un solo párrafo fluido y cita todos los enlaces en el mismo paréntesis: "(_[[El País](url1) / [DW](url2)]_ )".
+5. **Estimación de Tiempo Relativo (Obligatorio):** Calcula el tiempo transcurrido para cada noticia comparando la etiqueta [FECHA_PUBLICACION: ...] de la noticia con la hora de referencia del servidor actual, la cual es: ${currentServerTime}.
+   * Comienza cada hecho o viñeta indicando la hora relativa estimada al principio, en el formato exacto: "Hace X horas:" o "Hace X min:" o "Hace X días:".
+   * *Ejemplo:* "* Hace 2 horas: Un fuerte sismo de magnitud 7.5 causó daños estructurales en La Guaira. (_[[El País](url)]_)"
+   * Si no se puede calcular o falta la etiqueta de fecha, usa "Hace poco:".
+6. **Sin Emojis:** Está estrictamente prohibido el uso de emojis, emoticonos o símbolos decorativos en cualquier parte del texto (títulos y viñetas). El boletín debe ser enteramente sobrio, limpio y profesional.
+7. **Sin preámbulos ni saludos:** No escribas ningún tipo de saludo, introducción, preámbulo (ej: "Claro, aquí tienes el resumen..."), comentarios explicativos ni cierres. Comienza directamente con el primer título o la primera viñeta de forma inmediata. El resultado debe ser puramente de estructura Markdown directa y limpia.
 `;
 
     const userMessage = `
-A continuación tienes el boletín de noticias de hoy recopiladas de los RSS feeds activos:
+Hora de referencia actual del servidor: ${currentServerTime}
+
+A continuación se detallan las noticias filtradas hoy de las fuentes de prensa activas:
 
 ${consolidatedNews}
 
-Por favor, genera el resumen consolidado de hoy siguiendo las reglas especificadas.
+Por favor, genera el resumen consolidado de hoy siguiendo las reglas descritas.
 `;
 
     stats.trackGeminiCall();
@@ -192,6 +245,14 @@ Por favor, genera el resumen consolidado de hoy siguiendo las reglas especificad
     return cleaned.replace(/\s+/g, " ").trim();
   }
 
+  private static checkRelevance(title: string, desc: string): boolean {
+    const text = `${title} ${desc}`.toLowerCase();
+    if (text.includes("venezuela")) return true;
+    const hasEmergency = EMERGENCY_KEYWORDS.some(kw => text.includes(kw));
+    const hasGeographic = GEOGRAPHIC_KEYWORDS.some(kw => text.includes(kw));
+    return hasEmergency && hasGeographic;
+  }
+
   private static parseItems(sourceName: string, items: string[]): string {
     let output = `### ${sourceName}\n`;
     let newsFound = 0;
@@ -200,28 +261,19 @@ Por favor, genera el resumen consolidado de hoy siguiendo las reglas especificad
       const titleMatch = item.match(/<title>([\s\S]*?)<\/title>/);
       const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/);
       const descMatch = item.match(/<description>([\s\S]*?)<\/description>/);
+      const pubDateMatch = item.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
 
       const title = this.cleanHtmlAndCdata(titleMatch?.[1] ?? "Sin título");
       const link = linkMatch?.[1]?.trim() ?? "";
       const desc = this.cleanHtmlAndCdata(descMatch?.[1] ?? "").slice(0, 150);
+      const pubDate = pubDateMatch?.[1] ? this.cleanHtmlAndCdata(pubDateMatch[1]) : "";
 
-      const keywords = [
-        "venezuela",
-        "caracas",
-        "maduro",
-        "chavismo",
-        "maracaibo",
-        "delcy",
-      ];
-      const textToSearch = `${title} ${desc}`.toLowerCase();
-      const containsVenezuela = keywords.some((word) =>
-        textToSearch.includes(word),
-      );
-      if (!containsVenezuela) return;
+      if (!this.checkRelevance(title, desc)) return;
 
       newsFound++;
       output += `- **${title}**\n`;
       if (desc) output += `  _${desc}_\n`;
+      if (pubDate) output += `  [FECHA_PUBLICACION: ${pubDate}]\n`;
       if (link) output += `  [URL_ORIGINAL: ${link}]\n`;
       output += "\n";
     });
@@ -236,36 +288,26 @@ Por favor, genera el resumen consolidado de hoy siguiendo las reglas especificad
     entries.forEach((entry) => {
       const titleMatch = entry.match(/<title>([\s\S]*?)<\/title>/);
       const linkMatch =
-        entry.match(/<link href="([\s\S]*?)"/) ||
+        entry.match(/<link[^>]+href=["']([^"']+)["']/i) ||
         entry.match(/<link>([\s\S]*?)<\/link>/);
       const summaryMatch =
         entry.match(/<summary>([\s\S]*?)<\/summary>/) ||
         entry.match(/<content>([\s\S]*?)<\/content>/);
+      const updatedMatch =
+        entry.match(/<updated>([\s\S]*?)<\/updated>/) ||
+        entry.match(/<published>([\s\S]*?)<\/published>/);
 
       const title = this.cleanHtmlAndCdata(titleMatch?.[1] ?? "Sin título");
       const link = linkMatch?.[1]?.trim() ?? "";
-      const desc = this.cleanHtmlAndCdata(summaryMatch?.[1] ?? "").slice(
-        0,
-        150,
-      );
+      const desc = this.cleanHtmlAndCdata(summaryMatch?.[1] ?? "").slice(0, 150);
+      const pubDate = updatedMatch?.[1] ? this.cleanHtmlAndCdata(updatedMatch[1]) : "";
 
-      const keywords = [
-        "venezuela",
-        "caracas",
-        "maduro",
-        "chavismo",
-        "maracaibo",
-        "delcy",
-      ];
-      const textToSearch = `${title} ${desc}`.toLowerCase();
-      const containsVenezuela = keywords.some((word) =>
-        textToSearch.includes(word),
-      );
-      if (!containsVenezuela) return;
+      if (!this.checkRelevance(title, desc)) return;
 
       newsFound++;
       output += `- **${title}**\n`;
       if (desc) output += `  _${desc}_\n`;
+      if (pubDate) output += `  [FECHA_PUBLICACION: ${pubDate}]\n`;
       if (link) output += `  [URL_ORIGINAL: ${link}]\n`;
       output += "\n";
     });

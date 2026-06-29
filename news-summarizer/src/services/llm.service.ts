@@ -5,16 +5,16 @@ const ai = new GoogleGenAI({});
 export class LLMService {
   public static async generateResponse(
     systemPrompt: string,
-    history: any[],
+    _history: any[],
     userMessage: string,
-    undefinedParam: undefined,
+    _undefinedParam: undefined,
     accountId: string,
     modelId: string,
   ): Promise<{ text: string }> {
     console.log("¿La API Key existe?:", !!process.env.GEMINI_API_KEY);
 
     try {
-      const modelTarget = "gemini-2.5-flash";
+      const modelTarget = (modelId || "gemini-2.5-flash").replace(/^google\//, "");
 
       const response = await ai.models.generateContent({
         model: modelTarget,
