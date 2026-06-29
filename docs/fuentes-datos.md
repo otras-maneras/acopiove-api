@@ -81,13 +81,13 @@ Estas fuentes externas se consultan directamente desde el servidor, se normaliza
   ```
 * **Formato:** JSON
 
-### Ayuda Venezuela (API)
-* **Proposito:** Registro de pacientes y estado de salud consultado mediante la API REST pública de búsqueda.
-* **URL de API:** `https://api.terremotovenezuela.app/api/patients/search`
+### Terremoto Venezuela (REST API)
+* **Proposito:** Registro de ingresos de pacientes en centros hospitalarios y búsqueda de desaparecidos.
+* **URL de API:** `https://ayudavenezuela.online/api/v1/desaparecidos`
 * **Ejemplo de peticion directa (cURL):**
   ```bash
-  # Buscar un paciente hospitalizado por nombre
-  curl -s "https://api.terremotovenezuela.app/api/patients/search?q=Nombre"
+  # Buscar personas reportadas por nombre (requiere credencial)
+  curl -s -H "X-API-Key: TU_API_KEY" "https://ayudavenezuela.online/api/v1/desaparecidos?nombre=Nombre&limit=10"
   ```
 * **Formato:** JSON
 
