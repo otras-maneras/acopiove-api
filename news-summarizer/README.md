@@ -1,56 +1,169 @@
-# 📰 Recopilador y Resumidor de Prensa con IA (News Summarizer)
+# News Summarizer
 
-Este módulo contiene la lógica para descargar feeds de noticias en formato RSS/Atom de múltiples medios de comunicación en paralelo, parsear y limpiar sus contenidos de forma ligera sin dependencias externas pesadas, y generar un **Resumen Informativo Diario** estructurado y consolidado utilizando **Gemini 2.5 Pro**.
+API que consume fuentes RSS, filtra noticias relacionadas con Venezuela y genera un resumen informativo en Markdown usando Google Gemini.
 
----
+## Tecnologías
 
-## 🛠️ Arquitectura y Componentes
+- **Runtime:** Node.js + TypeScript
+- **Framework:** Express 5
+- **IA:** Google Gemini 2.5 Flash (`@google/genai`)
+- **Ejecución:** `tsx` (TypeScript directo, sin build)
 
-La herramienta está compuesta por dos partes principales:
-1. **Parser XML RSS/Atom Adaptativo:** Descarga los boletines y extrae las noticias más recientes limpiando el formato (HTML/CDATA).
-2. **Asistente de Síntesis Editorial (Gemini):** Agrupa, consolida y redacta un boletín diario estructurado en Markdown, evitando duplicidades de noticias reportadas por múltiples medios.
+## Requisitos
 
-```mermaid
-graph TD
-    A[Fuentes RSS/Atom] -->|Fetch en paralelo| B(Parser XML regex)
-    B -->|Limpia CDATA y HTML| C[Consolidado de Noticias]
-    C -->|Gemini 2.5 Pro| D[Resumen Informativo en Markdown]
+- Node.js 18+
+- Una API Key de Google Gemini ([https://aistudio.google.com/apikey](https://aistudio.google.com/apikey))
+
+## Setup
+
+```bash
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tu GEMINI_API_KEY
 ```
 
----
+### Variables de entorno (`.env`)
 
-## 🔌 Fuentes Soportadas por Defecto
+| Variable         | Obligatoria | Default | Descripción              |
+| ---------------- | ----------- | ------- | ------------------------ |
+| `GEMINI_API_KEY` | Sí          | —       | API Key de Google Gemini |
+| `PORT`           | No          | `3000`  | Puerto del servidor      |
 
-* **El País (América):** `https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada`
-* **RT (Russia Today):** `https://actualidad.rt.com/feeds/all.rss`
-* **Aporrea:** `http://feeds.feedburner.com/aporrea/noticias`
-* **DW (Deutsche Welle):** `http://rss.dw.com/rdf/rss-sp-top`
-* **La Nación:** `https://www.lanacion.com.ar/arc/outboundfeeds/rss/?outputType=xml`
-* **NY Times (World):** `https://rss.nytimes.com/services/xml/rss/nyt/World.xml`
+## Ejecutar
 
----
+```bash
+npm run dev
+```
 
-## ⚙️ Flujo de Operación
+## API
 
-1. **Timeout Controlado:** Cada petición a las fuentes RSS tiene un timeout estricto de **4 segundos** (usando `AbortController`) para evitar bloquear el hilo de ejecución si una fuente está caída.
-2. **Parser Liviano:** En lugar de importar un analizador XML pesado como `fast-xml-parser` o `jsdom`, utiliza expresiones regulares optimizadas:
-   * Identifica etiquetas `<item>` (RSS) o `<entry>` (Atom).
-   * Remueve etiquetas CDATA e HTML con la función `cleanHtmlAndCdata()`.
-3. **Consolidación con IA:** Agrupa las noticias y las envía a `google/gemini-2.5-pro` con un System Prompt que define las reglas editoriales:
-   * Organizar por secciones coherentes.
-   * Citar las fuentes originales.
-   * Eliminar duplicados o noticias repetidas.
+### `GET /health`
 
----
+Health check del servidor.
 
-## 📋 Requisitos y Dependencias
+```json
+{
+  "status": "available",
+  "timestamp": "2026-06-28T23:00:00.000Z",
+  "uptime": 123.45,
+  "environment": "development"
+}
+```
 
-* **Node.js** v18+ (con soporte nativo para `fetch` o instalando `node-fetch`).
-* Un servicio o cliente de **Gemini API** / LLMService configurado para realizar la llamada al modelo.
+### `POST /api/news/summary`
 
----
+Genera un resumen de noticias sobre Venezuela a partir de las fuentes seleccionadas.
 
-## 📂 Archivos en este Directorio
+**Body:**
 
-* [README.md](file:///home/centros-acopio/news-summarizer/README.md): Esta documentación.
-* [news.service.ts](file:///home/centros-acopio/news-summarizer/news.service.ts): Código fuente de la clase `NewsService` listo para ser importado e integrado.
+```json
+{
+  "sources": ["elpais", "dw", "nytimes"],
+  "accountId": "user-abc-123"
+}
+```
+
+- `sources` — Array con IDs de fuentes RSS. Usar `["all"]` para todas.
+- `accountId` — Identificador para logging.
+
+**Respuesta exitosa:**
+
+```json
+{
+  "ok": true,
+  "summary": "# Boletín de Noticias de Venezuela\n\n## Política\n..."
+}
+```
+
+**IDs de fuentes disponibles:**
+
+| ID         | Fuente                 |
+| ---------- | ---------------------- |
+| `elpais`   | El País (América)      |
+| `rt`       | RT (Russia Today)      |
+| `aporrea`  | Aporrea                |
+| `dw`       | Deutsche Welle         |
+| `lanacion` | La Nación              |
+| `nytimes`  | New York Times (World) |
+
+### `GET /api/news/stats`
+
+Estadísticas de uso del servicio (persiste en `stats.json`).
+
+```json
+{
+  "ok": true,
+  "stats": {
+    "totalRequests": 42,
+    "geminiCalls": 10,
+    "rssCacheHits": 15,
+    "summaryCacheHits": 8,
+    "requestsByEndpoint": {
+      "GET /health": 10,
+      "POST /api/news/summary": 32
+    },
+    "since": "2026-06-28T23:00:00.000Z",
+    "uptime": 3600
+  }
+}
+```
+
+## Arquitectura
+
+```
+src/
+├── index.ts                  # Entry point (Express)
+├── routes/
+│   ├── health.routes.ts      # GET /health
+│   └── news.routes.ts        # POST /summary, GET /stats
+├── controllers/
+│   ├── health.controller.ts  # Lógica de health check
+│   └── news.controller.ts    # Validación + orquestación
+├── services/
+│   ├── news.service.ts       # Core: RSS fetch, parse, filtrado, prompt assembly
+│   └── llm.service.ts        # Wrapper de Google Gemini
+└── utils/
+    ├── cache.ts              # SimpleCache en memoria (RSS 15min, resumen 1h)
+    ├── stats.ts              # StatsTracker persistente en stats.json
+    └── logger.ts             # Logger con timestamp
+```
+
+### Flujo de datos
+
+```
+Cliente → POST /api/news/summary
+  → news.controller valida body
+  → NewsService.generateSummary(sources)
+    → Por cada fuente:
+        ¿Cache RSS hit? → usa datos cacheados
+        ¿Miss? → fetch → parse XML → filtra keywords Venezuela → cachea
+    → Une resultados
+    ¿Cache resumen hit? → devuelve resumen (0 llamadas Gemini)
+    ¿Miss? → llama a Gemini → cachea → devuelve
+  → Respuesta al cliente
+```
+
+## Caché
+
+| Nivel          | TTL    | Key                          | Ahorra            |
+| -------------- | ------ | ---------------------------- | ----------------- |
+| RSS feed       | 15 min | `rss:{sourceId}`             | Fetches repetidos |
+| Resumen Gemini | 1 hora | `summary:{sourcesOrdenados}` | Llamadas a Gemini |
+
+La caché es en memoria (se pierde al reiniciar el servidor).
+
+## Filtro de contenido
+
+Solo se procesan artículos que contengan alguna de estas palabras clave (case-insensitive):
+`venezuela`, `caracas`, `maduro`, `chavismo`, `maracaibo`, `delcy`
+
+El keyword matching se aplica sobre título + descripción de cada ítem RSS.
+
+## Notas
+
+- El proyecto se ejecuta con `tsx` (sin compilación TypeScript). No hay script `build`.
+- El archivo `stats.json` se genera automáticamente en la raíz del proyecto.
+- Los mensajes de error y logs están en español.
