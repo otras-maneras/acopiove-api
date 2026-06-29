@@ -18,7 +18,7 @@ Para evitar que los desarrolladores y las organizaciones de rescate tengan que i
 * **Centros de Insumos VE:** Inventario logístico de suministros y requerimientos de ayuda.
 * **Hub Venezuela Ayuda (hazlohoy.org):** Consolidado de ofertas y solicitudes de asistencia ciudadana.
 * **ResponseGrid:** Necesidades validadas por brigadas profesionales de primera respuesta.
-* **Ayuda Venezuela (MCP):** Consulta segura a través de RPC de pacientes ingresados en hospitales.
+* **Ayuda Venezuela (API):** Directorio y búsqueda de pacientes ingresados en centros hospitalarios.
 * **REDH AVAPRE:** Base de datos de la Red de Ayuda Hospitalaria con pacientes y desaparecidos.
 * **De Mano en Mano:** Requerimientos de insumos médicos y urgencias por unidad clínica.
 * **TerraVE:** Zonas de daño físico estimadas mediante análisis satelital por radar SAR.

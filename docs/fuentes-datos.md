@@ -81,18 +81,15 @@ Estas fuentes externas se consultan directamente desde el servidor, se normaliza
   ```
 * **Formato:** JSON
 
-### Ayuda Venezuela (MCP)
-* **Proposito:** Registro de pacientes y estado de salud consultado mediante Model Context Protocol (MCP).
-* **URL de API:** `https://ayudavenezuela.online/mcp`
+### Ayuda Venezuela (API)
+* **Proposito:** Registro de pacientes y estado de salud consultado mediante la API REST pública de búsqueda.
+* **URL de API:** `https://api.terremotovenezuela.app/api/patients/search`
 * **Ejemplo de peticion directa (cURL):**
   ```bash
-  # Llamar a la herramienta de busqueda por RPC
-  curl -s -X POST -H "Content-Type: application/json" \
-    -H "Authorization: Bearer <TOKEN>" \
-    -d '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"buscar_paciente","arguments":{"q":"nombre_familiar"}},"id":1}' \
-    "https://ayudavenezuela.online/mcp"
+  # Buscar un paciente hospitalizado por nombre
+  curl -s "https://api.terremotovenezuela.app/api/patients/search?q=Nombre"
   ```
-* **Formato:** JSON (JSON-RPC 2.0)
+* **Formato:** JSON
 
 ### REDH AVAPRE
 * **Proposito:** Red de Ayuda Hospitalaria para registrar personas desaparecidas e ingresadas en centros de salud.
