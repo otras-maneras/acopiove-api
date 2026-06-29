@@ -22,7 +22,7 @@
     "/puntos": {
       "get": {
         "summary": "Directorio de ayuda unificado (acopios, refugios, salud, teléfonos)",
-        "description": "Un solo endpoint consolidado con todos los puntos de apoyo fisico. Integra y normaliza en tiempo real los centros de acopio, refugios y lineas telefonicas propios de AcopioVE con los puntos de atencion medica y hospitales de la API publica de CIVIS Venezuela. No incluye datos personales (PII). Soporta formatos JSON, GeoJSON y CSV.",
+        "description": "Un solo endpoint con todos los puntos de apoyo, pensado para apps y chatbots. Unifica centros de acopio + refugios + teléfonos de emergencia (AcopioVE) y puntos de salud/hospitales (CIVIS). NO incluye personas (PII). JSON, GeoJSON o CSV.",
         "parameters": [
           {
             "name": "tipo",
@@ -215,7 +215,7 @@
     "/personas": {
       "get": {
         "summary": "Búsqueda de personas reportadas (desaparecidas/localizadas) — reunificación",
-        "description": "Buscador de personas reportadas con foco en la privacidad (PII-seguro). Consulta y agrega de forma transparente y en paralelo los registros en vivo de las APIs de SOS Venezuela, Localizados Venezuela y el hub consolidado de Venezuela Ayuda. Requiere obligatoriamente un termino de busqueda en 'q' (nombre) o 'cedula'. Filtra datos sensibles: enmascara la cedula (ej: ***123), omite telefonos y coordenadas geograficas de las personas, y oculta la ubicacion de menores de edad (edad < 18).",
+        "description": "Búsqueda PII-segura para apps y chatbots: \"¿está [nombre] reportado?\". Fuentes: SOS Venezuela + Localizados Venezuela + hub Venezuela Ayuda. Requiere `q` (nombre) o `cedula` — es un lookup, no un volcado del registro. Devuelve nombre, estado, ubicación general, foto y fuente; cédula ENMASCARADA; sin teléfono ni coordenadas GPS; la ubicación de menores se omite.",
         "parameters": [
           {
             "name": "q",
