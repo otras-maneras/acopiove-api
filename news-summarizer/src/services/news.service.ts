@@ -149,10 +149,11 @@ Reglas del resumen:
 3. **Hipervínculos Obligatorios (Fuentes):** Cada hecho resumido debe finalizar obligatoriamente enlazando a la URL original provista en la etiqueta [URL_ORIGINAL: ...] camuflada en el nombre del medio.
    * *Ejemplo de formato:* "Este es el hecho resumido. (_[[El País](https://ejemplo.com/noticia)]_)"
 4. **Deduplicación:** Si múltiples medios reportan la misma réplica o el mismo centro de acopio, consolida la información en un solo párrafo fluido y cita todos los enlaces en el mismo paréntesis: "(_[[El País](url1) / [DW](url2)]_ )".
-5. **Estimación de Tiempo Relativo (Obligatorio):** Calcula el tiempo transcurrido para cada noticia comparando la etiqueta [FECHA_PUBLICACION: ...] de la noticia con la hora de referencia del servidor actual, la cual es: ${currentServerTime}.
-   * Comienza cada hecho o viñeta indicando la hora relativa estimada al principio, en el formato exacto: "Hace X horas:" o "Hace X min:" o "Hace X días:".
-   * *Ejemplo:* "* Hace 2 horas: Un fuerte sismo de magnitud 7.5 causó daños estructurales en La Guaira. (_[[El País](url)]_)"
-   * Si no se puede calcular o falta la etiqueta de fecha, usa "Hace poco:".
+5. **Fecha de publicación (Obligatorio):** Cada viñeta debe comenzar con la fecha/hora original de la noticia fuente, tomada de la etiqueta [FECHA_PUBLICACION: ...].
+   * Formato exacto al inicio de cada viñeta: "pub. DD/MM/AAAA HH:MM:" (fecha real de la fuente).
+   * *Ejemplo:* "* pub. 01/07/2026 14:30: Un fuerte sismo de magnitud 7.5 causó daños estructurales en La Guaira. (_[[El País](url)]_)"
+   * **NO escribas tiempos relativos** como "Hace X horas" ni "Hace poco": ese texto queda obsoleto apenas pasa el tiempo, sobre todo si el resumen se sirve desde caché (ver sección de Caché). Si el consumidor de esta API quiere mostrar tiempo relativo, debe calcularlo él mismo a partir de esta fecha fija en el momento de renderizar, no confiar en un valor congelado en el texto.
+   * Si falta la fecha de publicación en la fuente, omite el prefijo y comienza directamente con el hecho.
 6. **Sin Emojis:** Está estrictamente prohibido el uso de emojis, emoticonos o símbolos decorativos en cualquier parte del texto (títulos y viñetas). El boletín debe ser enteramente sobrio, limpio y profesional.
 7. **Sin preámbulos ni saludos:** No escribas ningún tipo de saludo, introducción, preámbulo (ej: "Claro, aquí tienes el resumen..."), comentarios explicativos ni cierres. Comienza directamente con el primer título o la primera viñeta de forma inmediata. El resultado debe ser puramente de estructura Markdown directa y limpia.
 `;
@@ -168,7 +169,7 @@ Por favor, genera el resumen consolidado de hoy siguiendo las reglas descritas.
 `;
 
     stats.trackGeminiCall();
-    const modelId = "google/gemini-2.5-pro";
+    const modelId = "google/gemini-2.5-flash";
     const aiRes = await LLMService.generateResponse(
       systemPrompt,
       [],

@@ -111,6 +111,16 @@ Estas fuentes externas se consultan directamente desde el servidor, se normaliza
   ```
 * **Formato:** JSON (Google Apps Script)
 
+### ReportaVNZLA
+* **Proposito:** Busqueda on-demand de personas desaparecidas/localizadas; agrega desaparecidosterremotovenezuela.com y venezuelatebusca.com (~61k registros).
+* **URL de API:** `https://reportavnzla.com/api/v1/personas`
+* **Ejemplo de peticion directa (cURL):**
+  ```bash
+  # Buscar por nombre (lookup, no volcado masivo)
+  curl -s "https://reportavnzla.com/api/v1/personas?q=Gonzalez&limit=25&page=0"
+  ```
+* **Formato:** JSON
+
 ### TerraVE (Datos Satelitales SAR)
 * **Proposito:** Capa de afectación estructural y zonas de derrumbe obtenidas de radar satelital (SAR) Sentinel-1 GRD.
 * **URL de API:** `https://terra-ve.vercel.app/api/satelital`
@@ -130,3 +140,4 @@ Adicionalmente, se importan y actualizan periodicamente datos de soporte tecnico
 * **USGS (U.S. Geological Survey):** Integracion de la API de sismicidad en tiempo real para graficar epicentros, intensidades instrumentales (ShakeMaps) y replicas.
 * **Interp-Aid:** Directorio de traductores e interpretes voluntarios para soporte telefonico e internacional multilingue.
 * **acopiovzla.com, RefugioVE e infoayudavenezuela.site:** Consolidacion de inventarios historicos iniciales de centros de acopio y capacidades de refugios temporales antes del despliegue del mapa unificado.
+* **venezuelared.com (VenezuelaHelp):** Directorio de refugios (humanos y animales) y centros de acopio en Aragua y Carabobo. Sin API publica; revision manual de duplicados y carga puntual de los registros sin solapamiento.

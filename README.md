@@ -22,6 +22,7 @@ Para evitar que los desarrolladores y las organizaciones de rescate tengan que i
 * **REDH AVAPRE:** Base de datos de la Red de Ayuda Hospitalaria con pacientes y desaparecidos.
 * **De Mano en Mano:** Requerimientos de insumos médicos y urgencias por unidad clínica.
 * **TerraVE:** Zonas de daño físico estimadas mediante análisis satelital por radar SAR.
+* **ReportaVNZLA:** Búsqueda on-demand de personas que agrega desaparecidosterremotovenezuela.com y venezuelatebusca.com.
 
 ---
 
@@ -85,7 +86,7 @@ Si deseas integrar los datos en tiempo real en tu aplicación, plataforma o chat
 #### 3. Búsqueda de personas (Reunificación)
 * **GET /personas** - Búsqueda PII-segura de personas reportadas como desaparecidas o localizadas.
   * Requisito: Requiere obligatoriamente un término de búsqueda en `q` (nombre) o `cedula`.
-  * Privacidad: Las cédulas se devuelven enmascaradas (`***123`), se omiten teléfonos y GPS, y se oculta la ubicación de menores de edad (`edad < 18`). Agrega registros de SOS Venezuela, Localizados y Venezuela Ayuda.
+  * Privacidad: Las cédulas se devuelven enmascaradas (`***123`), se omiten teléfonos y GPS, y se oculta la ubicación de menores de edad (`edad < 18`). Agrega registros de SOS Venezuela, Localizados, Venezuela Ayuda y ReportaVNZLA (on-demand).
 
 #### 4. Contribuir Datos (Submissions)
 * **POST /submissions** - Envía una sugerencia de centro de acopio o refugio.
@@ -107,7 +108,7 @@ Hemos preparado guías y ejemplos específicos para expandir el uso de la API:
 3. **Webhook de WhatsApp (NodeJS):** [examples/whatsapp_webhook.js](examples/whatsapp_webhook.js) - Manejador completo para un bot de WhatsApp conectado con Kapso.
 4. **Cliente en NodeJS (Fetch API):** [examples/nodejs_example.js](examples/nodejs_example.js) - Consulta geolocalizada e impresión formateada de puntos de ayuda en consola.
 5. **Comandos cURL (Bash):** [examples/curl_examples.sh](examples/curl_examples.sh) - Scripts y peticiones rápidas documentadas de consola.
-6. **Recopilador y Resumidor de Prensa con IA (NodeJS):** [news-summarizer/](news-summarizer/) - Módulo independiente que descarga feeds RSS en paralelo, realiza un parseo XML liviano mediante expresiones regulares y genera síntesis informativas consolidadas usando Gemini 2.5 Pro.
+6. **Recopilador y Resumidor de Prensa con IA (NodeJS):** [news-summarizer/](news-summarizer/) - Módulo independiente que descarga feeds RSS en paralelo, realiza un parseo XML liviano mediante expresiones regulares y genera síntesis informativas consolidadas usando Gemini 2.5 Flash.
 
 ---
 

@@ -167,3 +167,4 @@ El keyword matching se aplica sobre título + descripción de cada ítem RSS.
 - El proyecto se ejecuta con `tsx` (sin compilación TypeScript). No hay script `build`.
 - El archivo `stats.json` se genera automáticamente en la raíz del proyecto.
 - Los mensajes de error y logs están en español.
+- Cada viñeta del resumen empieza con la fecha real de publicación (`pub. DD/MM/AAAA HH:MM:`), no con un tiempo relativo. El resumen se cachea 1 hora (ver "Caché"), así que un tiempo relativo escrito por el modelo ("Hace 5 min") quedaría obsoleto para el resto de esa hora. Si tu app necesita mostrar "hace X minutos/horas", calculalo del lado del cliente a partir de esa fecha fija en el momento de renderizar.
